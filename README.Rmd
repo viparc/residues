@@ -22,3 +22,6 @@ last_week_antibiotics <- readr::read_csv("https://raw.githubusercontent.com/vipa
                                          col_types = paste(c("c", rep("i", 47)), collapse = ""))
 ```
 
+For each flock (row, as identified by `farm` and `flock`), it shows the duration,
+in weeks, of the flock (`flock_duration`) as well as, for each antibiotic, the
+number of weeks since last use at the end of the flock.
