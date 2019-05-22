@@ -1,5 +1,5 @@
 ---
-title: "Making data"
+title: "Last week of AMU per antibiotic and flock"
 csl: the-american-naturalist.csl
 output:
   html_document:
@@ -51,5 +51,60 @@ knitr::opts_chunk$set(margin = TRUE, prompt = TRUE, comment = "",
 
 options(width = 137)
 ```
+
+## Required packages
+
+```{r}
+required <- c("dplyr", "magrittr", "purrr")
+to_install <- setdiff(required, row.names(installed.packages()))
+if (length(to_install)) install.packages(to_install)
+```
+
+```{r}
+library(magrittr)
+```
+
+## Loading CliRes data
+
+```{r}
+viparc_qualitative <- readr::read_csv("https://raw.githubusercontent.com/viparc/colistin_resistance/master/data/viparc_qualitative.csv",
+                                      col_types = paste(c("cii", rep("l", 52), "il"), collapse = ""))
+```
+
+## Making the data
+
+The flocks durations:
+
+```{r}
+flock_durations <- viparc_qualitative %>% 
+  dplyr::group_by(farm, flock) %>% 
+  dplyr::summarize(flock_duration = max(week)) %>% 
+  dplyr::ungroup()
+```
+
+A utilitary function:
+
+```{r}
+max_week <- function(x) {
+  viparc_qualitative %>% 
+    dplyr::select(farm, flock, week, x) %>% 
+    dplyr::filter(!!rlang::sym(x)) %>% 
+    dplyr::group_by(farm, flock) %>% 
+    dplyr::summarise(!!x := max(week)) %>% 
+    dplyr::ungroup()
+}
+```
+
+Writting to disk:
+
+```{r}
+if (!dir.exists("data")) dir.create("data")
+grep("_use", names(viparc_qualitative), value = TRUE) %>% 
+  lapply(max_week) %>% 
+  purrr::reduce(dplyr::full_join, c("farm", "flock")) %>% 
+  dplyr::left_join(flock_durations, ., c("farm", "flock")) %>% 
+  write.csv("data/last_week_antibiotics.csv", FALSE, row.names = FALSE)
+```
+
 
 
