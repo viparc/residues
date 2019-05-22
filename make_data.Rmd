@@ -55,7 +55,7 @@ options(width = 137)
 ## Required packages
 
 ```{r}
-required <- c("dplyr", "magrittr", "purrr")
+required <- c("dplyr", "magrittr", "purrr", "tidyselect")
 to_install <- setdiff(required, row.names(installed.packages()))
 if (length(to_install)) install.packages(to_install)
 ```
