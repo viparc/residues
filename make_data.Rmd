@@ -103,6 +103,7 @@ grep("_use", names(viparc_qualitative), value = TRUE) %>%
   lapply(max_week) %>% 
   purrr::reduce(dplyr::full_join, c("farm", "flock")) %>% 
   dplyr::left_join(flock_durations, ., c("farm", "flock")) %>% 
+  dplyr::mutate_at(dplyr::vars(tidyselect::ends_with("_use")), list(. =  ~ flock_duration - .)) %>% 
   write.csv("data/last_week_antibiotics.csv", FALSE, row.names = FALSE)
 ```
 

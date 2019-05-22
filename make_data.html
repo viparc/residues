@@ -439,6 +439,7 @@ title wherever you want to display the reference list.
 +   lapply(max_week) %&gt;% 
 +   purrr::reduce(dplyr::full_join, c(&quot;farm&quot;, &quot;flock&quot;)) %&gt;% 
 +   dplyr::left_join(flock_durations, ., c(&quot;farm&quot;, &quot;flock&quot;)) %&gt;% 
++   dplyr::mutate_at(dplyr::vars(tidyselect::ends_with(&quot;_use&quot;)), list(. =  ~ flock_duration - .)) %&gt;% 
 +   write.csv(&quot;data/last_week_antibiotics.csv&quot;, FALSE, row.names = FALSE)</code></pre>
 </div>
 
