@@ -415,7 +415,8 @@ title wherever you want to display the reference list.
 <div id="loading-clires-data" class="section level2">
 <h2>Loading CliRes data</h2>
 <pre class="r"><code>&gt; viparc_qualitative &lt;- readr::read_csv(&quot;https://raw.githubusercontent.com/viparc/colistin_resistance/master/data/viparc_qualitative.csv&quot;,
-+                                       col_types = paste(c(&quot;cii&quot;, rep(&quot;l&quot;, 52), &quot;il&quot;), collapse = &quot;&quot;))</code></pre>
++                                       col_types = paste(c(&quot;cii&quot;, rep(&quot;l&quot;, 52), &quot;il&quot;), collapse = &quot;&quot;)) %&gt;% 
++   dplyr::filter(completed)</code></pre>
 </div>
 <div id="making-the-data" class="section level2">
 <h2>Making the data</h2>

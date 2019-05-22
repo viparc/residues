@@ -68,7 +68,8 @@ library(magrittr)
 
 ```{r}
 viparc_qualitative <- readr::read_csv("https://raw.githubusercontent.com/viparc/colistin_resistance/master/data/viparc_qualitative.csv",
-                                      col_types = paste(c("cii", rep("l", 52), "il"), collapse = ""))
+                                      col_types = paste(c("cii", rep("l", 52), "il"), collapse = "")) %>% 
+  dplyr::filter(completed)
 ```
 
 ## Making the data
